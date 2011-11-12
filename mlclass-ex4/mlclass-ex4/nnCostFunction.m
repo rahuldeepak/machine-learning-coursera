@@ -73,6 +73,20 @@ Y = eye(num_labels)(y,:);
 J=sum(sum((-Y .* log(a3)) - ((1 -Y) .* log(1 - a3))))/m;
 J = J + (lambda/(2*m)) * (sum(sum(Theta1(:,2:end).^2)) + sum(sum(Theta2(:,2:end).^2)));
 
+% back propagation
+d3 = a3 - Y;
+d2 = (d3 * Theta2(:,2:end)) .* sigmoidGradient(z2);
+
+Theta2_grad = ((a2' * d3)/m)';
+Theta1_grad = ((a1' * d2)/m)';
+
+Theta2_grad(:,2:end) = Theta2_grad(:,2:end) + (lambda/m) * Theta2(:,2:end);
+Theta1_grad(:,2:end) = Theta1_grad(:,2:end) + (lambda/m) * Theta1(:,2:end);
+
+
+
+
+
 % -------------------------------------------------------------
 
 % =========================================================================
